@@ -89,6 +89,12 @@ function AdvanceCard({ advance }: { advance: Advance }) {
   const paid = advance.paidOrderCount ?? 0
   const total = advance.orderIds.length
 
+  // Tính số tiền đã thu và còn lại dựa trên đơn đã giải ngân
+  const paidAmount = orderDetails
+    .slice(0, paid)
+    .reduce((s, o) => s + Math.round(o.amount * 0.6), 0)
+  const remaining = advance.amount - paidAmount
+
   return (
     <div className={`bg-card rounded-2xl border overflow-hidden ${
       advance.status === "warning"
@@ -113,12 +119,25 @@ function AdvanceCard({ advance }: { advance: Advance }) {
             : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
         </div>
 
-        {/* Row 2: Amount */}
-        <MoneyDisplay
-          amount={advance.amount}
-          variant="inline"
-          className="text-xl font-bold text-foreground block mb-3"
-        />
+        {/* Row 2: Amount + remaining */}
+        <div className="flex items-end justify-between mb-3">
+          <div>
+            <p className="text-[11px] text-muted-foreground mb-0.5">Ban đầu ứng</p>
+            <MoneyDisplay
+              amount={advance.amount}
+              variant="inline"
+              className="text-xl font-bold text-foreground"
+            />
+          </div>
+          {remaining > 0 ? (
+            <div className="text-right">
+              <p className="text-[11px] text-muted-foreground mb-0.5">Còn lại</p>
+              <p className="text-base font-bold text-warning">{(remaining / 1000000).toFixed(2)}M</p>
+            </div>
+          ) : (
+            <span className="text-xs font-medium text-success bg-success/10 px-2 py-1 rounded-full">Đã thu hết</span>
+          )}
+        </div>
 
         {/* Row 3: Orders paid status */}
         <div className="flex items-center gap-2">
