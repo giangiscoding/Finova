@@ -93,7 +93,7 @@ function AdvanceCard({ advance }: { advance: Advance }) {
   const paidAmount = orderDetails
     .slice(0, paid)
     .reduce((s, o) => s + Math.round(o.amount * 0.6), 0)
-  const remaining = advance.amount - paidAmount
+  const remaining = paid >= total ? 0 : advance.amount - paidAmount
 
   return (
     <div className={`bg-card rounded-2xl border overflow-hidden ${
