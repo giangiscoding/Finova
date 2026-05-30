@@ -5,7 +5,7 @@ import { StatusBadge } from "@/components/ungtienhang/status-badge"
 import { Plus, ChevronDown, CalendarDays } from "lucide-react"
 import { useState } from "react"
 
-interface Advance {
+export interface Advance {
   id: string
   amount: number
   pendingAmount: number
@@ -16,6 +16,7 @@ interface Advance {
 
 interface MyAdvancesScreenProps {
   onNewAdvance: () => void
+  newAdvances?: Advance[]
 }
 
 const activeAdvances: Advance[] = [
@@ -64,11 +65,12 @@ const completedAdvances: Advance[] = [
   },
 ]
 
-export function MyAdvancesScreen({ onNewAdvance }: MyAdvancesScreenProps) {
+export function MyAdvancesScreen({ onNewAdvance, newAdvances = [] }: MyAdvancesScreenProps) {
   const [showCompleted, setShowCompleted] = useState(false)
 
-  const totalActive = activeAdvances.reduce((sum, a) => sum + a.amount, 0)
-  const warningCount = activeAdvances.filter(a => a.status === "warning").length
+  const allActive = [...newAdvances, ...activeAdvances]
+  const totalActive = allActive.reduce((sum, a) => sum + a.amount, 0)
+  const warningCount = allActive.filter(a => a.status === "warning").length
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -110,7 +112,7 @@ export function MyAdvancesScreen({ onNewAdvance }: MyAdvancesScreenProps) {
         <section>
           <h2 className="text-base font-semibold text-foreground mb-3">Đang hoạt động</h2>
           <div className="space-y-3">
-            {activeAdvances.map((advance) => (
+            {allActive.map((advance) => (
               <div
                 key={advance.id}
                 className={`bg-card rounded-2xl border overflow-hidden ${

@@ -6,7 +6,7 @@ import { HomeScreen } from "@/components/ungtienhang/screens/home-screen"
 import { QuickAdvanceScreen } from "@/components/ungtienhang/screens/quick-advance-screen"
 import { ConfirmOTPScreen } from "@/components/ungtienhang/screens/confirm-otp-screen"
 import { SuccessScreen } from "@/components/ungtienhang/screens/success-screen"
-import { MyAdvancesScreen } from "@/components/ungtienhang/screens/my-advances-screen"
+import { MyAdvancesScreen, type Advance } from "@/components/ungtienhang/screens/my-advances-screen"
 import { OnboardingScreen } from "@/components/ungtienhang/screens/onboarding-screen"
 import { ProcessingScreen } from "@/components/ungtienhang/screens/processing-screen"
 
@@ -27,9 +27,27 @@ export default function UngtienhangApp() {
   const [advanceAmount, setAdvanceAmount] = useState(0)
   const [activeTab, setActiveTab] = useState<Tab>("home")
   const [showOnboarding, setShowOnboarding] = useState(true)
+  const [newAdvances, setNewAdvances] = useState<Advance[]>([])
 
   const feeRate = 0.008
   const fee = Math.round(advanceAmount * feeRate)
+
+  function makeAdvance(amount: number): Advance {
+    const now = new Date()
+    const pad = (n: number) => String(n).padStart(2, "0")
+    const fmt = (d: Date) => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`
+    const due = new Date(now); due.setDate(due.getDate() + 5)
+    const seq = String(Math.floor(Math.random() * 900) + 100)
+    const dateStr = `${String(now.getFullYear()).slice(2)}${pad(now.getMonth() + 1)}${pad(now.getDate())}`
+    return {
+      id: `TTH${dateStr}-${seq}`,
+      amount,
+      pendingAmount: Math.round(amount / 0.6),
+      advanceDate: fmt(now),
+      expectedPayDate: fmt(due),
+      status: "active",
+    }
+  }
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false)
@@ -46,6 +64,7 @@ export default function UngtienhangApp() {
   }
 
   const handleOTPConfirm = () => {
+    setNewAdvances(prev => [makeAdvance(advanceAmount), ...prev])
     setCurrentScreen("processing")
     setTimeout(() => setCurrentScreen("success"), 2800)
   }
@@ -139,7 +158,7 @@ export default function UngtienhangApp() {
       )}
       
       {currentScreen === "my-advances" && (
-        <MyAdvancesScreen onNewAdvance={handleAdvanceNow} />
+        <MyAdvancesScreen onNewAdvance={handleAdvanceNow} newAdvances={newAdvances} />
       )}
 
       {currentScreen === "profile" && (
