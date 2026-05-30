@@ -33,7 +33,7 @@ export default function UngtienhangApp() {
   const feeRate = 0.008
   const fee = Math.round(advanceAmount * feeRate)
 
-  function makeAdvance(amount: number): Advance {
+  function makeAdvance(amount: number, orderIds: string[]): Advance {
     const now = new Date()
     const pad = (n: number) => String(n).padStart(2, "0")
     const fmt = (d: Date) => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`
@@ -46,6 +46,8 @@ export default function UngtienhangApp() {
       pendingAmount: Math.round(amount / 0.6),
       advanceDate: fmt(now),
       expectedPayDate: fmt(due),
+      orderIds,
+      paidOrderCount: 0,
       status: "active",
     }
   }
@@ -68,7 +70,7 @@ export default function UngtienhangApp() {
   }
 
   const handleOTPConfirm = () => {
-    setNewAdvances(prev => [makeAdvance(advanceAmount), ...prev])
+    setNewAdvances(prev => [makeAdvance(advanceAmount, pendingSelectedIds), ...prev])
     setAdvancedOrderIds(prev => [...prev, ...pendingSelectedIds])
     setCurrentScreen("processing")
     setTimeout(() => setCurrentScreen("success"), 2800)
