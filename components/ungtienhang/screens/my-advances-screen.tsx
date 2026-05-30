@@ -77,12 +77,12 @@ export function MyAdvancesScreen({ onNewAdvance, newAdvances = [] }: MyAdvancesS
       {/* Header */}
       <header className="flex items-center justify-between px-4 py-3 bg-card border-b border-border">
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-[#166534] flex items-center justify-center shadow-sm">
+          <div className="w-9 h-9 rounded-xl bg-[#0A5C2A] flex items-center justify-center shadow-sm">
             <span className="text-white font-black text-base leading-none" style={{fontStyle:"italic"}}>U</span>
           </div>
           <h1 className="text-base font-semibold text-foreground">Khoản ứng của tôi</h1>
         </div>
-        <div className="w-8 h-8 rounded-full bg-[#161823] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-[#0A1F14] flex items-center justify-center">
           <span className="text-white text-xs font-bold">N</span>
         </div>
       </header>
@@ -124,7 +124,7 @@ export function MyAdvancesScreen({ onNewAdvance, newAdvances = [] }: MyAdvancesS
                 <div className="p-4">
                   {/* Row 1: ID */}
                   <div className="flex items-center gap-1.5 mb-2">
-                    <div className="w-5 h-5 rounded bg-[#166534] flex items-center justify-center">
+                    <div className="w-5 h-5 rounded bg-[#0A5C2A] flex items-center justify-center">
                       <span className="text-white font-black text-[9px]">U</span>
                     </div>
                     <span className="text-xs text-muted-foreground font-mono">#{advance.id}</span>
@@ -174,7 +174,7 @@ export function MyAdvancesScreen({ onNewAdvance, newAdvances = [] }: MyAdvancesS
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1.5">
-                      <div className="w-5 h-5 rounded bg-[#166534] flex items-center justify-center">
+                      <div className="w-5 h-5 rounded bg-[#0A5C2A] flex items-center justify-center">
                         <span className="text-white font-black text-[9px]">U</span>
                       </div>
                       <span className="text-xs text-muted-foreground font-mono">#{advance.id}</span>

@@ -4,35 +4,34 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* TikTok Shop Design Tokens */
-  --primary: #FE2C55;
-  --primary-soft: #FFF0F3;
+  /* Finova Green Design Tokens */
+  --primary: #00C853;
+  --primary-soft: #E8FFF1;
   --primary-foreground: #FFFFFF;
-  --accent: #FE2C55;
+  --accent: #00C853;
   --accent-foreground: #FFFFFF;
-  --success: #00BA54;
+  --success: #00C853;
   --success-foreground: #FFFFFF;
-  --warning: #FF9500;
+  --warning: #F59E0B;
   --warning-foreground: #FFFFFF;
-  --danger: #FE2C55;
+  --danger: #EF4444;
   --danger-foreground: #FFFFFF;
-  --foreground: #161823;
-  --muted-foreground: #737373;
-  --border: #E8E8E8;
-  --background: #F8F8F8;
+  --foreground: #0A1F14;
+  --muted-foreground: #6B7280;
+  --border: #E2EFE7;
+  --background: #F6FDF8;
   --card: #FFFFFF;
-  --card-foreground: #161823;
-  --input: #E8E8E8;
-  --ring: #FE2C55;
+  --card-foreground: #0A1F14;
+  --input: #E2EFE7;
+  --ring: #00C853;
   --radius: 0.75rem;
 
-  /* Keep some defaults for shadcn compatibility */
   --popover: #FFFFFF;
-  --popover-foreground: #161823;
-  --secondary: #F0F0F0;
-  --secondary-foreground: #161823;
-  --muted: #F0F0F0;
-  --destructive: #FE2C55;
+  --popover-foreground: #0A1F14;
+  --secondary: #E8FFF1;
+  --secondary-foreground: #0A5C2A;
+  --muted: #EEF7F1;
+  --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
 }
 

@@ -28,7 +28,7 @@ export function ProcessingScreen() {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-8">
       {/* Logo */}
-      <div className="w-16 h-16 rounded-2xl bg-[#166534] flex items-center justify-center mb-6 shadow-lg">
+      <div className="w-16 h-16 rounded-2xl bg-[#0A5C2A] flex items-center justify-center mb-6 shadow-lg">
         <span className="text-3xl font-black text-white italic leading-none">U</span>
       </div>
 

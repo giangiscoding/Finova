@@ -22,7 +22,7 @@ export function HomeScreen({ onAdvanceNow, advancedOrderIds = [] }: HomeScreenPr
       {/* Header */}
       <header className="flex items-center justify-between px-4 py-3 bg-card border-b border-border">
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-[#166534] flex items-center justify-center shadow-sm">
+          <div className="w-9 h-9 rounded-xl bg-[#0A5C2A] flex items-center justify-center shadow-sm">
             <span className="text-white font-black text-base leading-none" style={{fontStyle:"italic"}}>U</span>
           </div>
           <div>
@@ -42,7 +42,7 @@ export function HomeScreen({ onAdvanceNow, advancedOrderIds = [] }: HomeScreenPr
 
       <main className="px-4 py-4 space-y-6">
         {/* Hero Card */}
-        <div className="bg-gradient-to-br from-[#FE2C55] to-[#8B1A35] rounded-2xl p-5 text-white">
+        <div className="bg-gradient-to-br from-[#00C853] to-[#047A32] rounded-2xl p-5 text-white">
           <div className="flex gap-3 mb-5">
             <div className="flex-1 bg-white/10 rounded-xl px-4 py-3">
               <p className="text-white/60 text-xs mb-1">Hạn mức tối đa</p>
@@ -58,7 +58,7 @@ export function HomeScreen({ onAdvanceNow, advancedOrderIds = [] }: HomeScreenPr
 
           <button
             onClick={onAdvanceNow}
-            className="w-full bg-white hover:bg-white/90 text-[#FE2C55] font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors"
+            className="w-full bg-white hover:bg-white/90 text-[#00C853] font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors"
           >
             Ứng ngay
             <ChevronRight className="w-5 h-5" />

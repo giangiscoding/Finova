@@ -20,21 +20,21 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
 
   return (
     <div
-      className="min-h-screen bg-[#161823] flex flex-col items-center justify-center"
+      className="min-h-screen bg-[#033220] flex flex-col items-center justify-center"
       style={{ opacity: exiting ? 0 : 1, transition: "opacity 0.5s ease-out" }}
     >
       {/* Logo + ripple rings */}
       <div className="relative flex items-center justify-center mb-6">
         <div
-          className="absolute w-24 h-24 rounded-[22px] bg-[#166534]"
+          className="absolute w-24 h-24 rounded-[22px] bg-[#0A5C2A]"
           style={{ animation: "ttRipple 1.6s ease-out 0.2s infinite" }}
         />
         <div
-          className="absolute w-24 h-24 rounded-[22px] bg-[#166534]"
+          className="absolute w-24 h-24 rounded-[22px] bg-[#0A5C2A]"
           style={{ animation: "ttRipple 1.6s ease-out 0.7s infinite" }}
         />
         <div
-          className="relative w-24 h-24 rounded-[22px] flex items-center justify-center shadow-2xl bg-[#166534]"
+          className="relative w-24 h-24 rounded-[22px] flex items-center justify-center shadow-2xl bg-[#0A5C2A]"
           style={{ animation: "ttScaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards" }}
         >
           <span className="text-6xl font-black text-white select-none italic leading-none">U</span>
