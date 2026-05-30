@@ -7,17 +7,19 @@ import { pendingOrders, MIN_ORDERS, MIN_ADVANCE, ADVANCE_RATE } from "@/lib/ungt
 
 interface QuickAdvanceScreenProps {
   onBack: () => void
-  onConfirm: (amount: number) => void
+  onConfirm: (amount: number, selectedIds: string[]) => void
+  advancedOrderIds?: string[]
 }
 
 const feeRate = 0.008
 
-export function QuickAdvanceScreen({ onBack, onConfirm }: QuickAdvanceScreenProps) {
+export function QuickAdvanceScreen({ onBack, onConfirm, advancedOrderIds = [] }: QuickAdvanceScreenProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [agreed, setAgreed] = useState(true)
   const [showAll, setShowAll] = useState(false)
 
-  const visibleOrders = showAll ? pendingOrders : pendingOrders.slice(0, 5)
+  const availableOrders = pendingOrders.filter(o => !advancedOrderIds.includes(o.id))
+  const visibleOrders = showAll ? availableOrders : availableOrders.slice(0, 5)
 
   const toggle = (id: string) => {
     setSelected(prev => {
@@ -28,14 +30,14 @@ export function QuickAdvanceScreen({ onBack, onConfirm }: QuickAdvanceScreenProp
   }
 
   const toggleAll = () => {
-    if (selected.size === pendingOrders.length) {
+    if (selected.size === availableOrders.length) {
       setSelected(new Set())
     } else {
-      setSelected(new Set(pendingOrders.map(o => o.id)))
+      setSelected(new Set(availableOrders.map(o => o.id)))
     }
   }
 
-  const selectedOrders = pendingOrders.filter(o => selected.has(o.id))
+  const selectedOrders = availableOrders.filter(o => selected.has(o.id))
   const totalSelected = selectedOrders.reduce((s, o) => s + o.amount, 0)
   const advanceAmount = Math.round(totalSelected * ADVANCE_RATE)
   const fee = Math.round(advanceAmount * feeRate)
@@ -74,7 +76,7 @@ export function QuickAdvanceScreen({ onBack, onConfirm }: QuickAdvanceScreenProp
             className="flex items-center gap-2 text-sm font-medium text-foreground"
           >
             <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
-              selected.size === pendingOrders.length
+              selected.size === availableOrders.length
                 ? "bg-primary border-primary"
                 : selected.size > 0
                 ? "bg-primary/30 border-primary"
@@ -84,7 +86,7 @@ export function QuickAdvanceScreen({ onBack, onConfirm }: QuickAdvanceScreenProp
             </div>
             Chọn tất cả
           </button>
-          <span className="text-xs text-muted-foreground">{selected.size}/{pendingOrders.length} đơn</span>
+          <span className="text-xs text-muted-foreground">{selected.size}/{availableOrders.length} đơn</span>
         </div>
 
         {/* Order list */}
@@ -133,7 +135,7 @@ export function QuickAdvanceScreen({ onBack, onConfirm }: QuickAdvanceScreenProp
           })}
 
           {/* Show more / less */}
-          {pendingOrders.length > 5 && (
+          {availableOrders.length > 5 && (
             <button
               onClick={() => setShowAll(!showAll)}
               className="w-full flex items-center justify-center gap-1 py-3 text-xs text-primary font-medium border-t border-border"
@@ -141,7 +143,7 @@ export function QuickAdvanceScreen({ onBack, onConfirm }: QuickAdvanceScreenProp
               {showAll ? (
                 <><ChevronUp className="w-3.5 h-3.5" /> Thu gọn</>
               ) : (
-                <><ChevronDown className="w-3.5 h-3.5" /> Xem thêm {pendingOrders.length - 5} đơn</>
+                <><ChevronDown className="w-3.5 h-3.5" /> Xem thêm {availableOrders.length - 5} đơn</>
               )}
             </button>
           )}
@@ -209,7 +211,7 @@ export function QuickAdvanceScreen({ onBack, onConfirm }: QuickAdvanceScreenProp
       {/* Sticky bottom */}
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-card border-t border-border p-4 pb-[calc(16px+env(safe-area-inset-bottom))]">
         <button
-          onClick={() => onConfirm(advanceAmount)}
+          onClick={() => onConfirm(advanceAmount, [...selected])}
           disabled={!canConfirm}
           className="w-full bg-primary hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground text-white font-semibold py-4 rounded-xl transition-colors"
         >

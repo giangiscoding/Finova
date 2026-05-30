@@ -6,15 +6,17 @@ import { pendingOrders, ADVANCE_RATE } from "@/lib/ungtienhang/pending-orders"
 
 interface HomeScreenProps {
   onAdvanceNow: () => void
+  advancedOrderIds?: string[]
 }
 
 const maxAdvanceAmount = 85500000
 const totalPendingOrders = 248
 
-const totalPending = pendingOrders.reduce((s, o) => s + o.amount, 0)
-const availableNow = Math.round(totalPending * ADVANCE_RATE)
+export function HomeScreen({ onAdvanceNow, advancedOrderIds = [] }: HomeScreenProps) {
+  const activePendingOrders = pendingOrders.filter(o => !advancedOrderIds.includes(o.id))
+  const totalPending = activePendingOrders.reduce((s, o) => s + o.amount, 0)
+  const availableNow = Math.round(totalPending * ADVANCE_RATE)
 
-export function HomeScreen({ onAdvanceNow }: HomeScreenProps) {
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
@@ -50,7 +52,7 @@ export function HomeScreen({ onAdvanceNow }: HomeScreenProps) {
             <div className="flex-1 bg-white/20 rounded-xl px-4 py-3 border border-white/30">
               <p className="text-white/80 text-xs mb-1">Khả dụng ngay</p>
               <MoneyDisplay amount={availableNow} variant="inline" className="text-white font-bold text-base block" />
-              <p className="text-white/60 text-[10px] mt-0.5">60% × {pendingOrders.length} đơn chờ về</p>
+              <p className="text-white/60 text-[10px] mt-0.5">60% × {activePendingOrders.length} đơn chờ về</p>
             </div>
           </div>
 
@@ -75,12 +77,12 @@ export function HomeScreen({ onAdvanceNow }: HomeScreenProps) {
               Đơn đang chờ tiền về
             </h2>
             <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
-              {pendingOrders.length} đơn · {(totalPending / 1000000).toFixed(1)}M
+              {activePendingOrders.length} đơn · {(totalPending / 1000000).toFixed(1)}M
             </span>
           </div>
 
           <div className="bg-card rounded-2xl border border-border overflow-hidden">
-            {pendingOrders.map((order, index) => (
+            {activePendingOrders.map((order, index) => (
               <div key={order.id}>
                 <div className="flex items-center justify-between px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -101,7 +103,7 @@ export function HomeScreen({ onAdvanceNow }: HomeScreenProps) {
                     <p className="text-[11px] text-primary font-medium">về {order.expectedPay}</p>
                   </div>
                 </div>
-                {index < pendingOrders.length - 1 && <div className="border-b border-border mx-4" />}
+                {index < activePendingOrders.length - 1 && <div className="border-b border-border mx-4" />}
               </div>
             ))}
 

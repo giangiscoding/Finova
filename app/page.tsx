@@ -28,6 +28,7 @@ export default function UngtienhangApp() {
   const [activeTab, setActiveTab] = useState<Tab>("home")
   const [showOnboarding, setShowOnboarding] = useState(true)
   const [newAdvances, setNewAdvances] = useState<Advance[]>([])
+  const [advancedOrderIds, setAdvancedOrderIds] = useState<string[]>([])
 
   const feeRate = 0.008
   const fee = Math.round(advanceAmount * feeRate)
@@ -58,13 +59,17 @@ export default function UngtienhangApp() {
     setCurrentScreen("quick-advance")
   }
 
-  const handleConfirmAdvance = (amount: number) => {
+  const [pendingSelectedIds, setPendingSelectedIds] = useState<string[]>([])
+
+  const handleConfirmAdvance = (amount: number, selectedIds: string[]) => {
     setAdvanceAmount(amount)
+    setPendingSelectedIds(selectedIds)
     setCurrentScreen("confirm-otp")
   }
 
   const handleOTPConfirm = () => {
     setNewAdvances(prev => [makeAdvance(advanceAmount), ...prev])
+    setAdvancedOrderIds(prev => [...prev, ...pendingSelectedIds])
     setCurrentScreen("processing")
     setTimeout(() => setCurrentScreen("success"), 2800)
   }
@@ -99,9 +104,10 @@ export default function UngtienhangApp() {
   if (currentScreen === "quick-advance") {
     return (
       <div className="max-w-md mx-auto min-h-screen bg-background">
-        <QuickAdvanceScreen 
+        <QuickAdvanceScreen
           onBack={handleGoHome}
           onConfirm={handleConfirmAdvance}
+          advancedOrderIds={advancedOrderIds}
         />
       </div>
     )
@@ -154,6 +160,7 @@ export default function UngtienhangApp() {
       {currentScreen === "home" && (
         <HomeScreen
           onAdvanceNow={handleAdvanceNow}
+          advancedOrderIds={advancedOrderIds}
         />
       )}
       
