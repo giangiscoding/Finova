@@ -203,7 +203,6 @@ export function MyAdvancesScreen({ onNewAdvance, newAdvances = [] }: MyAdvancesS
 
   const allActive = [...newAdvances, ...activeAdvances]
   const totalActive = allActive.reduce((sum, a) => sum + a.amount, 0)
-  const warningCount = allActive.filter(a => a.status === "warning").length
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -225,15 +224,9 @@ export function MyAdvancesScreen({ onNewAdvance, newAdvances = [] }: MyAdvancesS
         <div className="bg-primary-soft rounded-2xl p-5">
           <p className="text-sm text-primary/70 mb-1">Tổng đang ứng</p>
           <MoneyDisplay amount={totalActive} variant="large" className="text-foreground block mb-4" />
-          <div className="flex gap-6">
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">Đang hoạt động</p>
-              <p className="text-sm font-semibold text-foreground">{allActive.length} khoản</p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">Sắp đến hạn</p>
-              <p className="text-sm font-semibold text-warning">{warningCount} khoản</p>
-            </div>
+          <div>
+            <p className="text-xs text-muted-foreground mb-0.5">Đang hoạt động</p>
+            <p className="text-sm font-semibold text-foreground">{allActive.length} khoản</p>
           </div>
         </div>
 
